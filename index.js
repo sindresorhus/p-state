@@ -6,17 +6,14 @@ const states = [
 	'rejected'
 ];
 
-module.exports.promiseStateAsync = async promise => {
-	const marker = Symbol('marker');
-
-	try {
-		return await Promise.race([promise, marker]) === marker ? 'pending' : 'fulfilled';
-	} catch {
-		return 'rejected';
-	}
-};
+module.exports.promiseStateAsync = require('./browser').promiseStateAsync;
 
 module.exports.promiseStateSync = promise => {
+	// eslint-disable-next-line promise/prefer-await-to-then
+	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
+		throw new TypeError(`Expected a promise, got ${typeof promise}`);
+	}
+
 	try {
 		// eslint-disable-next-line node/no-deprecated-api
 		const [stateIndex] = process.binding('util').getPromiseDetails(promise);

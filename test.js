@@ -1,4 +1,5 @@
 import test from 'ava';
+import delay from 'delay';
 import {promiseStateAsync, promiseStateSync} from '.';
 
 test('promiseStateAsync', async t => {
@@ -8,6 +9,20 @@ test('promiseStateAsync', async t => {
 	t.is(await promiseStateAsync(pendingPromise), 'pending');
 	t.is(await promiseStateAsync(fulfilledPromise), 'fulfilled');
 	t.is(await promiseStateAsync(rejectedPromise), 'rejected');
+});
+
+test('promiseStateAsync - reject', async t => {
+	const error = new Error('fixture');
+	const rejectedPromise = Promise.reject(error);
+	t.is(await promiseStateAsync(rejectedPromise), 'rejected');
+	await t.throwsAsync(rejectedPromise, {is: error});
+});
+
+test('promiseStateAsync - state resolves before promise', async t => {
+	const delayedPromise = delay(50);
+	t.is(await promiseStateAsync(delayedPromise), 'pending');
+	await delayedPromise;
+	t.is(await promiseStateAsync(delayedPromise), 'fulfilled');
 });
 
 test('promiseStateSync', t => {
