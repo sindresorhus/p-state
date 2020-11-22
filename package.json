@@ -18,8 +18,13 @@
 	},
 	"files": [
 		"index.js",
-		"index.d.ts"
+		"index.d.ts",
+		"browser.js"
 	],
+	"exports": {
+		"node": "./index.js",
+		"default": "./browser.js"
+	},
 	"keywords": [
 		"promise",
 		"state",
@@ -35,7 +40,9 @@
 	],
 	"devDependencies": {
 		"ava": "^2.4.0",
+		"delay": "^4.4.0",
 		"tsd": "^0.13.1",
 		"xo": "^0.35.0"
-	}
+	},
+	"browser": "browser.js"
 }
