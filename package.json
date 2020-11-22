@@ -1,0 +1,41 @@
+{
+	"name": "p-state",
+	"version": "0.0.0",
+	"description": "Inspect the state of a promise",
+	"license": "MIT",
+	"repository": "sindresorhus/p-state",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=10"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"promise",
+		"state",
+		"inspect",
+		"inspection",
+		"reflect",
+		"reflection",
+		"introspect",
+		"introspection",
+		"pending",
+		"fulfilled",
+		"rejected"
+	],
+	"devDependencies": {
+		"ava": "^2.4.0",
+		"tsd": "^0.13.1",
+		"xo": "^0.35.0"
+	}
+}
