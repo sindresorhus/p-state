@@ -1,4 +1,4 @@
-# p-state [![Build Status](https://github.com/sindresorhus/p-state/workflows/CI/badge.svg?branch=main)](https://github.com/sindresorhus/p-state/actions?query=branch%3Amain+workflow%3ACI)
+# p-state
 
 > Inspect the state of a promise
 
