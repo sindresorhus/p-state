@@ -1,12 +1,12 @@
 'use strict';
 
+const marker = Symbol('marker');
+
 module.exports.promiseStateAsync = async promise => {
 	// eslint-disable-next-line promise/prefer-await-to-then
 	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}
-
-	const marker = Symbol('marker');
 
 	try {
 		return await Promise.race([promise, marker]) === marker ? 'pending' : 'fulfilled';
