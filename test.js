@@ -1,5 +1,6 @@
 import test from 'ava';
 import delay from 'delay';
+import pEvent from 'p-event';
 import {promiseStateAsync, promiseStateSync} from '.';
 
 test('promiseStateAsync', async t => {
@@ -16,6 +17,14 @@ test('promiseStateAsync - reject', async t => {
 	const rejectedPromise = Promise.reject(error);
 	t.is(await promiseStateAsync(rejectedPromise), 'rejected');
 	await t.throwsAsync(rejectedPromise, {is: error});
+});
+
+test('promiseStateAsync - does not affect unhandled rejection', async t => {
+	const unhandledRejection = pEvent(process, 'unhandledRejection');
+	const fixture = Promise.reject(new Error('fixture'));
+	await promiseStateAsync(fixture);
+	await unhandledRejection;
+	t.pass();
 });
 
 test('promiseStateAsync - state resolves before promise', async t => {
