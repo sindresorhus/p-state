@@ -8,6 +8,15 @@ module.exports.promiseStateAsync = async promise => {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}
 
+	// Ensure unhandled rejections don't get swallowed.
+	await new Promise(resolve => {
+		if (typeof setImmediate === 'function') {
+			setImmediate(resolve);
+		} else {
+			setTimeout(resolve);
+		}
+	});
+
 	try {
 		return await Promise.race([promise, marker]) === marker ? 'pending' : 'fulfilled';
 	} catch {
