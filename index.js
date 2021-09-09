@@ -1,10 +1,5 @@
 'use strict';
-
-const states = [
-	'pending',
-	'fulfilled',
-	'rejected'
-];
+const {inspect} = require('util');
 
 module.exports.promiseStateAsync = require('./browser').promiseStateAsync;
 
@@ -14,22 +9,20 @@ module.exports.promiseStateSync = promise => {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}
 
-	try {
-		// eslint-disable-next-line node/no-deprecated-api
-		const [stateIndex] = process.binding('util').getPromiseDetails(promise);
-		return states[stateIndex];
-	} catch {
-		const {inspect} = require('util');
-		const inspectedString = inspect(promise);
+	const inspectedString = inspect(promise, {
+		depth: 0,
+		showProxy: false,
+		maxStringLength: 0,
+		breakLength: Infinity
+	});
 
-		if (inspectedString.startsWith('Promise { <pending> ')) {
-			return 'pending';
-		}
-
-		if (inspectedString.startsWith('Promise { <rejected> ')) {
-			return 'rejected';
-		}
-
-		return 'fulfilled';
+	if (inspectedString.startsWith('Promise { <pending>')) {
+		return 'pending';
 	}
+
+	if (inspectedString.startsWith('Promise { <rejected>')) {
+		return 'rejected';
+	}
+
+	return 'fulfilled';
 };
