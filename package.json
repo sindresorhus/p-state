@@ -1,6 +1,6 @@
 {
 	"name": "p-state",
-	"version": "0.2.1",
+	"version": "1.0.0",
 	"description": "Inspect the state of a promise",
 	"license": "MIT",
 	"repository": "sindresorhus/p-state",
