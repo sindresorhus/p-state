@@ -10,20 +10,18 @@ Note: While this is async, it does return the state in the next [microtask](http
 
 @example
 ```
-import timers from 'timers/promises';
+import timers from 'node:timers/promises';
 import {promiseStateAsync} from 'p-state';
 
-(async () => {
-	const timeoutPromise = timers.setTimeout(100);
+const timeoutPromise = timers.setTimeout(100);
 
-	console.log(await promiseStateAsync(timeoutPromise));
-	//=> 'pending'
+console.log(await promiseStateAsync(timeoutPromise));
+//=> 'pending'
 
-	await timeoutPromise;
+await timeoutPromise;
 
-	console.log(await promiseStateAsync(timeoutPromise));
-	//=> 'fulfilled'
-})();
+console.log(await promiseStateAsync(timeoutPromise));
+//=> 'fulfilled'
 ```
 */
 export function promiseStateAsync(promise: Promise<unknown>): Promise<PromiseState>;
@@ -38,20 +36,18 @@ Note: This method does not work in the browser.
 
 @example
 ```
-import timers from 'timers/promises';
+import timers from 'node:timers/promises';
 import {promiseStateSync} from 'p-state';
 
-(async () => {
-	const timeoutPromise = timers.setTimeout(100);
+const timeoutPromise = timers.setTimeout(100);
 
-	console.log(promiseStateSync(timeoutPromise));
-	//=> 'pending'
+console.log(promiseStateSync(timeoutPromise));
+//=> 'pending'
 
-	await timeoutPromise;
+await timeoutPromise;
 
-	console.log(promiseStateSync(timeoutPromise));
-	//=> 'fulfilled'
-})();
+console.log(promiseStateSync(timeoutPromise));
+//=> 'fulfilled'
 ```
 */
 export function promiseStateSync(promise: Promise<unknown>): PromiseState;

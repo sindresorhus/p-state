@@ -8,27 +8,25 @@ You would usually not need this as you can just await the promise at any time to
 
 ## Install
 
-```
-$ npm install p-state
+```sh
+npm install p-state
 ```
 
 ## Usage
 
 ```js
-const timers = require('timers/promises');
-const {promiseStateSync} = require('p-state');
+import timers from 'node:timers/promises';
+import {promiseStateSync} from 'p-state';
 
-(async () => {
-	const timeoutPromise = timers.setTimeout(100);
+const timeoutPromise = timers.setTimeout(100);
 
-	console.log(promiseStateSync(timeoutPromise));
-	//=> 'pending'
+console.log(promiseStateSync(timeoutPromise));
+//=> 'pending'
 
-	await timeoutPromise;
+await timeoutPromise;
 
-	console.log(promiseStateSync(timeoutPromise));
-	//=> 'fulfilled'
-})();
+console.log(promiseStateSync(timeoutPromise));
+//=> 'fulfilled'
 ```
 
 ## API

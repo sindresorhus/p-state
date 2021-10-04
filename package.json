@@ -10,8 +10,13 @@
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
+	"type": "module",
+	"exports": {
+		"node": "./index.js",
+		"default": "./browser.js"
+	},
 	"engines": {
-		"node": ">=10"
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
 	},
 	"scripts": {
 		"test": "xo && ava && tsd"
@@ -21,10 +26,6 @@
 		"index.d.ts",
 		"browser.js"
 	],
-	"exports": {
-		"node": "./index.js",
-		"default": "./browser.js"
-	},
 	"keywords": [
 		"promise",
 		"state",
@@ -39,11 +40,10 @@
 		"rejected"
 	],
 	"devDependencies": {
-		"ava": "^2.4.0",
-		"delay": "^4.4.0",
+		"ava": "^3.15.0",
+		"delay": "^5.0.0",
 		"p-event": "^4.2.0",
-		"tsd": "^0.13.1",
-		"xo": "^0.35.0"
-	},
-	"browser": "browser.js"
+		"tsd": "^0.17.0",
+		"xo": "^0.45.0"
+	}
 }

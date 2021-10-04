@@ -1,7 +1,8 @@
+import process from 'node:process';
 import test from 'ava';
 import delay from 'delay';
 import pEvent from 'p-event';
-import {promiseStateAsync, promiseStateSync} from '.';
+import {promiseStateAsync, promiseStateSync} from './index.js';
 
 test('promiseStateAsync', async t => {
 	const pendingPromise = new Promise(() => {});
@@ -42,5 +43,5 @@ test('promiseStateSync', t => {
 	t.is(promiseStateSync(fulfilledPromise), 'fulfilled');
 	t.is(promiseStateSync(rejectedPromise), 'rejected');
 
-	rejectedPromise.catch(() => {});
+	rejectedPromise.catch(() => {}); // eslint-disable-line promise/prefer-await-to-then
 });

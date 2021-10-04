@@ -1,9 +1,8 @@
-'use strict';
-const {inspect} = require('util');
+import {inspect} from 'node:util';
 
-module.exports.promiseStateAsync = require('./browser').promiseStateAsync;
+export {promiseStateAsync} from './browser.js';
 
-module.exports.promiseStateSync = promise => {
+export function promiseStateSync(promise) {
 	// eslint-disable-next-line promise/prefer-await-to-then
 	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
@@ -13,7 +12,7 @@ module.exports.promiseStateSync = promise => {
 		depth: 0,
 		showProxy: false,
 		maxStringLength: 0,
-		breakLength: Infinity
+		breakLength: Number.POSITIVE_INFINITY,
 	});
 
 	if (inspectedString.startsWith('Promise { <pending>')) {
@@ -25,4 +24,4 @@ module.exports.promiseStateSync = promise => {
 	}
 
 	return 'fulfilled';
-};
+}

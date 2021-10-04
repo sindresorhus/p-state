@@ -1,8 +1,6 @@
-'use strict';
-
 const marker = Symbol('marker');
 
-module.exports.promiseStateAsync = async promise => {
+export async function promiseStateAsync(promise) {
 	// eslint-disable-next-line promise/prefer-await-to-then
 	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
@@ -22,8 +20,8 @@ module.exports.promiseStateAsync = async promise => {
 	} catch {
 		return 'rejected';
 	}
-};
+}
 
-module.exports.promiseStateSync = () => {
+export function promiseStateSync() {
 	throw new Error('This method is not available in the browser');
-};
+}
