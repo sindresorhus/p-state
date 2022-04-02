@@ -4,7 +4,7 @@
 
 You would usually not need this as you can just await the promise at any time to get its value even after it's resolved. This package could be useful if you need to check the state of the promise before doing a heavy operation or for assertions when writing tests.
 
-**Vote up [this issue](https://github.com/nodejs/node/issues/40054) issue if you want to see this feature being included in Node.js itself.**
+**Vote up [this issue](https://github.com/nodejs/node/issues/40054) if you want to see this feature being included in Node.js itself.**
 
 ## Install
 
