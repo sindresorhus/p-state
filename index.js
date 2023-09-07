@@ -3,7 +3,6 @@ import {inspect} from 'node:util';
 export {promiseStateAsync} from './browser.js';
 
 export function promiseStateSync(promise) {
-	// eslint-disable-next-line promise/prefer-await-to-then
 	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}

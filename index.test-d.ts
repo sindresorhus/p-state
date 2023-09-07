@@ -1,5 +1,5 @@
 import {expectType} from 'tsd';
-import {promiseStateAsync, promiseStateSync, PromiseState} from './index.js';
+import {promiseStateAsync, promiseStateSync, type PromiseState} from './index.js';
 
 const promise = Promise.resolve();
 

@@ -1,7 +1,6 @@
 const marker = Symbol('marker');
 
 export async function promiseStateAsync(promise) {
-	// eslint-disable-next-line promise/prefer-await-to-then
 	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}
