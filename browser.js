@@ -10,7 +10,7 @@ export async function promiseStateAsync(promise) {
 		if (typeof setImmediate === 'function') {
 			setImmediate(resolve);
 		} else {
-			setTimeout(resolve);
+			setTimeout(resolve, 1); // Needs to be 1 and not 0 to work in the browser.
 		}
 	});
 
