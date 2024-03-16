@@ -45,3 +45,51 @@ test('promiseStateSync', t => {
 
 	rejectedPromise.catch(() => {});
 });
+
+function trackUnhandledRejections() {
+	const unhandledRejections = [];
+
+	const listener = error => {
+		unhandledRejections.push(error);
+	};
+
+	process.on('unhandledRejection', listener);
+
+	return {
+		stop() {
+			process.off('unhandledRejection', listener);
+		},
+		getRejections() {
+			return unhandledRejections;
+		},
+	};
+}
+
+// Test for https://github.com/sindresorhus/p-state/issues/12
+test.serial.failing('promiseStateAsync - handles late rejections', async t => {
+	const tracker = trackUnhandledRejections();
+
+	let rejectPromise;
+	const lateRejectPromise = new Promise((_, reject) => {
+		rejectPromise = reject;
+	});
+
+	// Check initial state
+	const initialState = await promiseStateAsync(lateRejectPromise);
+	t.is(initialState, 'pending');
+
+	// Reject the promise after checking its state
+	setTimeout(() => {
+		rejectPromise(new Error('Late rejection'));
+	}, 50);
+
+	// Give it some time to settle and check for unhandled rejections
+	await new Promise(resolve => {
+		setTimeout(resolve, 100);
+	});
+
+	t.is(tracker.getRejections().length, 1);
+	t.is(tracker.getRejections()[0]?.message, 'Late rejection');
+
+	tracker.stop();
+});
