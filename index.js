@@ -1,26 +1,28 @@
 import {inspect} from 'node:util';
 
-export {promiseStateAsync} from './browser.js';
-
-export function promiseStateSync(promise) {
-	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
+function getPromiseState(promise) {
+	if (!(promise && typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}
 
-	const inspectedString = inspect(promise, {
-		depth: 0,
-		showProxy: false,
-		maxStringLength: 0,
-		breakLength: Number.POSITIVE_INFINITY,
-	});
+	const inspectedString = inspect(promise, {breakLength: Number.POSITIVE_INFINITY});
 
-	if (inspectedString.startsWith('Promise { <pending>')) {
+	if (inspectedString.includes('<pending>')) {
 		return 'pending';
 	}
 
-	if (inspectedString.startsWith('Promise { <rejected>')) {
+	if (inspectedString.includes('<rejected>')) {
 		return 'rejected';
 	}
 
 	return 'fulfilled';
+}
+
+export async function promiseStateAsync(promise) {
+	// In Node.js, use util.inspect for inspection without attaching handlers
+	return getPromiseState(promise);
+}
+
+export function promiseStateSync(promise) {
+	return getPromiseState(promise);
 }

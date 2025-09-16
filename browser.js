@@ -1,26 +1,30 @@
-const marker = Symbol('marker');
-
 export async function promiseStateAsync(promise) {
-	if (!(typeof promise === 'object' && typeof promise.then === 'function')) {
+	if (!(promise && typeof promise === 'object' && typeof promise.then === 'function')) {
 		throw new TypeError(`Expected a promise, got ${typeof promise}`);
 	}
 
-	// Ensure unhandled rejections don't get swallowed.
-	await new Promise(resolve => {
-		if (typeof setImmediate === 'function') {
-			setImmediate(resolve);
-		} else {
-			setTimeout(resolve, 1); // Needs to be 1 and not 0 to work in the browser.
-		}
-	});
+	let isSettled = false;
+	let state = 'pending';
 
-	try {
-		return await Promise.race([promise, marker]) === marker ? 'pending' : 'fulfilled';
-	} catch {
-		return 'rejected';
-	}
+	promise.then(
+		() => {
+			isSettled = true;
+			state = 'fulfilled';
+		},
+		error => {
+			isSettled = true;
+			state = 'rejected';
+			throw error; // Rethrow so unhandled rejection still fires
+		},
+	);
+
+	// Wait for handlers to run (need to flush microtask queue)
+	await Promise.resolve();
+	await Promise.resolve();
+
+	return isSettled ? state : 'pending';
 }
 
-export function promiseStateSync() {
+export function promiseStateSync(_promise) {
 	throw new Error('This method is not available in the browser');
 }
