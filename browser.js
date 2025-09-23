@@ -6,6 +6,7 @@ export async function promiseStateAsync(promise) {
 	let isSettled = false;
 	let state = 'pending';
 
+	// eslint-disable-next-line promise/prefer-catch
 	promise.then(
 		() => {
 			isSettled = true;

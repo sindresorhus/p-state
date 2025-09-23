@@ -18,10 +18,10 @@
 	},
 	"sideEffects": false,
 	"engines": {
-		"node": ">=18"
+		"node": ">=20"
 	},
 	"scripts": {
-		"test": "xo && ava && tsd"
+		"test": "xo && node --test test.js && tsd"
 	},
 	"files": [
 		"index.js",
@@ -42,10 +42,13 @@
 		"rejected"
 	],
 	"devDependencies": {
-		"ava": "^5.3.1",
 		"delay": "^6.0.0",
-		"p-event": "^6.0.0",
-		"tsd": "^0.29.0",
-		"xo": "^0.56.0"
+		"tsd": "^0.33.0",
+		"xo": "^1.2.2"
+	},
+	"xo": {
+		"rules": {
+			"promise/prefer-await-to-then": "off"
+		}
 	}
 }
